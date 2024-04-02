@@ -2,10 +2,10 @@ SHELL := /bin/zsh
 
 PYTHON_SERVICES := python-service-one
 DOTNET_SERVICES := dotnet-service-one
-NODE_SERVICES := node-service-one node-service-two
+NODE_SERVICES := node-service-one
 PYTHON_APIS := python-api-one
 DOTNET_APIS := dotnet-api-one
-NODE_APIS := node-api-one node-api-two
+NODE_APIS := node-api-one
 
 .PHONY: npm-install all python dotnet node contracts clean-contracts $(PYTHON_SERVICES) $(DOTNET_SERVICES) $(NODE_SERVICES) $(PYTHON_APIS) $(DOTNET_APIS) $(NODE_APIS)
 

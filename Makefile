@@ -1,9 +1,9 @@
 SHELL := /bin/zsh
 
-PYTHON_SERVICES := python-service-one
+PYTHON_SERVICES := user-service itinerary-service
 DOTNET_SERVICES := dotnet-service-one
 NODE_SERVICES := node-service-one
-PYTHON_APIS := python-api-one
+PYTHON_APIS := save-the-date
 DOTNET_APIS := dotnet-api-one
 NODE_APIS := node-api-one
 
@@ -16,6 +16,11 @@ dotnet: $(DOTNET_SERVICES) $(DOTNET_APIS)
 node: $(NODE_SERVICES) $(NODE_APIS)
 
 contracts: python dotnet node
+
+queue:
+	@echo "Generating Python code for Command Queue..."
+	protoc --proto_path=contracts/ --python_out=command-queue/back-tier/src/contracts contracts/*.proto
+	@echo "Python code generated successfully for $@."
 
 $(PYTHON_SERVICES):
 	@echo "Generating Python code for $@..."

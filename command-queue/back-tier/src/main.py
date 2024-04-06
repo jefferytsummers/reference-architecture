@@ -12,7 +12,7 @@ class User(BaseModel):
     name: str
     email: str
 
-class UserServicer(user_grpc.UserServiceServicer):
+class UserServicer(user_grpc.UserServicer):
     def __init__(self):
         self.users = {}
 
@@ -53,7 +53,7 @@ class UserServicer(user_grpc.UserServiceServicer):
 @app.on_event("startup")
 async def startup_event():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
-    user_grpc.add_UserServiceServicer_to_server(UserServicer(), server)
+    user_grpc.add_UserServicer_to_server(UserServicer(), server)
     server.add_insecure_port("[::]:50051")
     server.start()
 

@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import command_pb2 as command__pb2
+from . import command_pb2 as command__pb2
 
 
 class CommandQueueServiceStub(object):

@@ -19,12 +19,12 @@ contracts: python dotnet node
 
 queue:
 	@echo "Generating Python code for Command Queue..."
-	protoc --proto_path=contracts/ --python_out=command-queue/back-tier/src/contracts contracts/*.proto
+	python -m grpc_tools.protoc --proto_path=contracts/ --python_out=command-queue/back-tier/src/contracts --grpc_python_out=command-queue/back-tier/src/contracts contracts/*.proto
 	@echo "Python code generated successfully for $@."
 
 $(PYTHON_SERVICES):
 	@echo "Generating Python code for $@..."
-	protoc --proto_path=contracts/ --python_out=services/$@/contracts contracts/*.proto
+	python -m grpc_tools.protoc --proto_path=contracts/ --python_out=./services/$@/contracts --grpc_python_out=./services/$@/contracts contracts/*.proto
 	@echo "Python code generated successfully for $@."
 
 $(DOTNET_SERVICES):
@@ -60,6 +60,7 @@ $(NODE_APIS):
 
 clean-contracts:
 	@echo "Cleaning generated files..."
+	find $(addsuffix /src/contracts, command-queue/back-tier) -type f -delete
 	find $(addsuffix /contracts/, $(addprefix services/, $(PYTHON_SERVICES) $(DOTNET_SERVICES))) -type f -delete
 	find $(addsuffix /src/contracts/, $(addprefix services/, $(NODE_SERVICES))) -type f -delete
 	find $(addsuffix /contracts/, $(addprefix orchestration/, $(PYTHON_APIS) $(DOTNET_APIS))) -type f -delete

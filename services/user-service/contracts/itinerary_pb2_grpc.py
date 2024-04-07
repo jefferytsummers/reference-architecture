@@ -2,10 +2,10 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-from . import user_pb2 as user__pb2
+import itinerary_pb2 as itinerary__pb2
 
 
-class UserStub(object):
+class ItineraryStub(object):
     """Missing associated documentation comment in .proto file."""
 
     def __init__(self, channel):
@@ -14,42 +14,42 @@ class UserStub(object):
         Args:
             channel: A grpc.Channel.
         """
-        self.GetUser = channel.unary_unary(
-                '/user.User/GetUser',
-                request_serializer=user__pb2.GetUserRequest.SerializeToString,
-                response_deserializer=user__pb2.GetUserReply.FromString,
+        self.GetItinerary = channel.unary_unary(
+                '/itinerary.Itinerary/GetItinerary',
+                request_serializer=itinerary__pb2.GetItineraryRequest.SerializeToString,
+                response_deserializer=itinerary__pb2.GetItineraryReply.FromString,
                 )
 
 
-class UserServicer(object):
+class ItineraryServicer(object):
     """Missing associated documentation comment in .proto file."""
 
-    def GetUser(self, request, context):
+    def GetItinerary(self, request, context):
         """Missing associated documentation comment in .proto file."""
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
 
-def add_UserServicer_to_server(servicer, server):
+def add_ItineraryServicer_to_server(servicer, server):
     rpc_method_handlers = {
-            'GetUser': grpc.unary_unary_rpc_method_handler(
-                    servicer.GetUser,
-                    request_deserializer=user__pb2.GetUserRequest.FromString,
-                    response_serializer=user__pb2.GetUserReply.SerializeToString,
+            'GetItinerary': grpc.unary_unary_rpc_method_handler(
+                    servicer.GetItinerary,
+                    request_deserializer=itinerary__pb2.GetItineraryRequest.FromString,
+                    response_serializer=itinerary__pb2.GetItineraryReply.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
-            'user.User', rpc_method_handlers)
+            'itinerary.Itinerary', rpc_method_handlers)
     server.add_generic_rpc_handlers((generic_handler,))
 
 
  # This class is part of an EXPERIMENTAL API.
-class User(object):
+class Itinerary(object):
     """Missing associated documentation comment in .proto file."""
 
     @staticmethod
-    def GetUser(request,
+    def GetItinerary(request,
             target,
             options=(),
             channel_credentials=None,
@@ -59,8 +59,8 @@ class User(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/user.User/GetUser',
-            user__pb2.GetUserRequest.SerializeToString,
-            user__pb2.GetUserReply.FromString,
+        return grpc.experimental.unary_unary(request, target, '/itinerary.Itinerary/GetItinerary',
+            itinerary__pb2.GetItineraryRequest.SerializeToString,
+            itinerary__pb2.GetItineraryReply.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

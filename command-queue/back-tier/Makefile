@@ -1,2 +1,2 @@
 start:
-	cd src && uvicorn main:app --reload
+	cd src && uvicorn command_queue:app --reload

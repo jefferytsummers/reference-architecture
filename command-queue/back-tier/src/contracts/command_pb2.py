@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rcommand.proto\x12\x0c\x63ommandqueue\"\x95\x01\n\x07\x43ommand\x12\x12\n\ncommand_id\x18\x01 \x01(\t\x12\x14\n\x0cservice_name\x18\x02 \x01(\t\x12\x14\n\x0c\x63ommand_type\x18\x03 \x01(\t\x12\x0f\n\x07payload\x18\x04 \x01(\x0c\x12\x10\n\x08priority\x18\x05 \x01(\x05\x12\x13\n\x0bretry_count\x18\x06 \x01(\x05\x12\x12\n\ncreated_at\x18\x07 \x01(\t\"?\n\x15\x45nqueueCommandRequest\x12&\n\x07\x63ommand\x18\x01 \x01(\x0b\x32\x15.commandqueue.Command\":\n\x16\x45nqueueCommandResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\"A\n\x15\x44\x65queueCommandRequest\x12\x14\n\x0cservice_name\x18\x01 \x01(\t\x12\x12\n\ncommand_id\x18\x02 \x01(\t\"b\n\x16\x44\x65queueCommandResponse\x12&\n\x07\x63ommand\x18\x01 \x01(\x0b\x32\x15.commandqueue.Command\x12\x0f\n\x07success\x18\x02 \x01(\x08\x12\x0f\n\x07message\x18\x03 \x01(\t\"?\n\x13RetryCommandRequest\x12\x12\n\ncommand_id\x18\x01 \x01(\t\x12\x14\n\x0cservice_name\x18\x02 \x01(\t\"8\n\x14RetryCommandResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\",\n\x14LogQueueStateRequest\x12\x14\n\x0cservice_name\x18\x01 \x01(\t\"B\n\x15LogQueueStateResponse\x12\x15\n\rcommand_count\x18\x01 \x01(\x05\x12\x12\n\nprocessing\x18\x02 \x01(\x08\x32\x80\x03\n\x13\x43ommandQueueService\x12[\n\x0e\x45nqueueCommand\x12#.commandqueue.EnqueueCommandRequest\x1a$.commandqueue.EnqueueCommandResponse\x12[\n\x0e\x44\x65queueCommand\x12#.commandqueue.DequeueCommandRequest\x1a$.commandqueue.DequeueCommandResponse\x12U\n\x0cRetryCommand\x12!.commandqueue.RetryCommandRequest\x1a\".commandqueue.RetryCommandResponse\x12X\n\rLogQueueState\x12\".commandqueue.LogQueueStateRequest\x1a#.commandqueue.LogQueueStateResponseB\x14\xaa\x02\x11\x63ontracts.commandb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\rcommand.proto\x12\x0c\x63ommandqueue\"\x95\x01\n\x07\x43ommand\x12\x12\n\ncommand_id\x18\x01 \x01(\t\x12\x14\n\x0cservice_name\x18\x02 \x01(\t\x12\x14\n\x0c\x63ommand_type\x18\x03 \x01(\t\x12\x0f\n\x07payload\x18\x04 \x01(\x0c\x12\x10\n\x08priority\x18\x05 \x01(\x05\x12\x13\n\x0bretry_count\x18\x06 \x01(\x05\x12\x12\n\ncreated_at\x18\x07 \x01(\t\"?\n\x15\x45nqueueCommandRequest\x12&\n\x07\x63ommand\x18\x01 \x01(\x0b\x32\x15.commandqueue.Command\":\n\x16\x45nqueueCommandResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\"A\n\x15\x44\x65queueCommandRequest\x12\x14\n\x0cservice_name\x18\x01 \x01(\t\x12\x12\n\ncommand_id\x18\x02 \x01(\t\"b\n\x16\x44\x65queueCommandResponse\x12&\n\x07\x63ommand\x18\x01 \x01(\x0b\x32\x15.commandqueue.Command\x12\x0f\n\x07success\x18\x02 \x01(\x08\x12\x0f\n\x07message\x18\x03 \x01(\t\"?\n\x13RetryCommandRequest\x12\x12\n\ncommand_id\x18\x01 \x01(\t\x12\x14\n\x0cservice_name\x18\x02 \x01(\t\"8\n\x14RetryCommandResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\"3\n\x1bLogQueueStateCommandRequest\x12\x14\n\x0cservice_name\x18\x01 \x01(\t\"S\n\x13QueueStateByService\x12\x12\n\ncommand_id\x18\x01 \x01(\t\x12\x14\n\x0cservice_name\x18\x02 \x01(\t\x12\x12\n\nprocessing\x18\x03 \x01(\x08\"U\n\x1cLogQueueStateCommandResponse\x12\x35\n\nqueueState\x18\x01 \x03(\x0b\x32!.commandqueue.QueueStateByService2\x95\x03\n\x13\x43ommandQueueService\x12[\n\x0e\x45nqueueCommand\x12#.commandqueue.EnqueueCommandRequest\x1a$.commandqueue.EnqueueCommandResponse\x12[\n\x0e\x44\x65queueCommand\x12#.commandqueue.DequeueCommandRequest\x1a$.commandqueue.DequeueCommandResponse\x12U\n\x0cRetryCommand\x12!.commandqueue.RetryCommandRequest\x1a\".commandqueue.RetryCommandResponse\x12m\n\x14LogQueueStateCommand\x12).commandqueue.LogQueueStateCommandRequest\x1a*.commandqueue.LogQueueStateCommandResponseB\x14\xaa\x02\x11\x63ontracts.commandb\x06proto3')
 
 _globals = globals()
 _builder.BuildMessageAndEnumDescriptors(DESCRIPTOR, _globals)
@@ -36,10 +36,12 @@ if _descriptor._USE_C_DESCRIPTORS == False:
   _globals['_RETRYCOMMANDREQUEST']._serialized_end=538
   _globals['_RETRYCOMMANDRESPONSE']._serialized_start=540
   _globals['_RETRYCOMMANDRESPONSE']._serialized_end=596
-  _globals['_LOGQUEUESTATEREQUEST']._serialized_start=598
-  _globals['_LOGQUEUESTATEREQUEST']._serialized_end=642
-  _globals['_LOGQUEUESTATERESPONSE']._serialized_start=644
-  _globals['_LOGQUEUESTATERESPONSE']._serialized_end=710
-  _globals['_COMMANDQUEUESERVICE']._serialized_start=713
-  _globals['_COMMANDQUEUESERVICE']._serialized_end=1097
+  _globals['_LOGQUEUESTATECOMMANDREQUEST']._serialized_start=598
+  _globals['_LOGQUEUESTATECOMMANDREQUEST']._serialized_end=649
+  _globals['_QUEUESTATEBYSERVICE']._serialized_start=651
+  _globals['_QUEUESTATEBYSERVICE']._serialized_end=734
+  _globals['_LOGQUEUESTATECOMMANDRESPONSE']._serialized_start=736
+  _globals['_LOGQUEUESTATECOMMANDRESPONSE']._serialized_end=821
+  _globals['_COMMANDQUEUESERVICE']._serialized_start=824
+  _globals['_COMMANDQUEUESERVICE']._serialized_end=1229
 # @@protoc_insertion_point(module_scope)

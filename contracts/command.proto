@@ -51,13 +51,18 @@ message RetryCommandResponse {
   string message = 2;
 }
 
-message LogQueueStateRequest {
+message LogQueueStateCommandRequest {
     string service_name = 1;
 }
 
-message LogQueueStateResponse {
-    int32 command_count = 1;
-    bool processing = 2;
+message QueueStateByService {
+    string command_id = 1;
+    string service_name = 2;
+    bool processing = 3;
+}
+
+message LogQueueStateCommandResponse {
+    repeated QueueStateByService queueState = 1;
 }
 
 // CommandQueueService defines the RPC service for the command queue
@@ -72,5 +77,5 @@ service CommandQueueService {
   rpc RetryCommand(RetryCommandRequest) returns (RetryCommandResponse);
 
   // Log state of the queue
-  rpc LogQueueState(LogQueueStateRequest) returns (LogQueueStateResponse);
+  rpc LogQueueStateCommand(LogQueueStateCommandRequest) returns (LogQueueStateCommandResponse);
 }

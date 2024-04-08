@@ -30,10 +30,10 @@ class CommandQueueServiceStub(object):
                 request_serializer=command__pb2.RetryCommandRequest.SerializeToString,
                 response_deserializer=command__pb2.RetryCommandResponse.FromString,
                 )
-        self.LogQueueState = channel.unary_unary(
-                '/commandqueue.CommandQueueService/LogQueueState',
-                request_serializer=command__pb2.LogQueueStateRequest.SerializeToString,
-                response_deserializer=command__pb2.LogQueueStateResponse.FromString,
+        self.LogQueueStateCommand = channel.unary_unary(
+                '/commandqueue.CommandQueueService/LogQueueStateCommand',
+                request_serializer=command__pb2.LogQueueStateCommandRequest.SerializeToString,
+                response_deserializer=command__pb2.LogQueueStateCommandResponse.FromString,
                 )
 
 
@@ -62,7 +62,7 @@ class CommandQueueServiceServicer(object):
         context.set_details('Method not implemented!')
         raise NotImplementedError('Method not implemented!')
 
-    def LogQueueState(self, request, context):
+    def LogQueueStateCommand(self, request, context):
         """Log state of the queue
         """
         context.set_code(grpc.StatusCode.UNIMPLEMENTED)
@@ -87,10 +87,10 @@ def add_CommandQueueServiceServicer_to_server(servicer, server):
                     request_deserializer=command__pb2.RetryCommandRequest.FromString,
                     response_serializer=command__pb2.RetryCommandResponse.SerializeToString,
             ),
-            'LogQueueState': grpc.unary_unary_rpc_method_handler(
-                    servicer.LogQueueState,
-                    request_deserializer=command__pb2.LogQueueStateRequest.FromString,
-                    response_serializer=command__pb2.LogQueueStateResponse.SerializeToString,
+            'LogQueueStateCommand': grpc.unary_unary_rpc_method_handler(
+                    servicer.LogQueueStateCommand,
+                    request_deserializer=command__pb2.LogQueueStateCommandRequest.FromString,
+                    response_serializer=command__pb2.LogQueueStateCommandResponse.SerializeToString,
             ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -155,7 +155,7 @@ class CommandQueueService(object):
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)
 
     @staticmethod
-    def LogQueueState(request,
+    def LogQueueStateCommand(request,
             target,
             options=(),
             channel_credentials=None,
@@ -165,8 +165,8 @@ class CommandQueueService(object):
             wait_for_ready=None,
             timeout=None,
             metadata=None):
-        return grpc.experimental.unary_unary(request, target, '/commandqueue.CommandQueueService/LogQueueState',
-            command__pb2.LogQueueStateRequest.SerializeToString,
-            command__pb2.LogQueueStateResponse.FromString,
+        return grpc.experimental.unary_unary(request, target, '/commandqueue.CommandQueueService/LogQueueStateCommand',
+            command__pb2.LogQueueStateCommandRequest.SerializeToString,
+            command__pb2.LogQueueStateCommandResponse.FromString,
             options, channel_credentials,
             insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

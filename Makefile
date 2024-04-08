@@ -24,7 +24,7 @@ contracts: python dotnet node
 
 queue:
 	@echo "${ORANGE}Generating Python code for Command Queue...${NC}"
-	@python -m grpc_tools.protoc --proto_path=contracts/ --python_out=command-queue/back-tier/src/contracts --grpc_python_out=command-queue/back-tier/src/contracts contracts/command.proto || (echo "${RED}Failed to generate Python code for Command Queue.${NC}" && exit 1)
+	@python -m grpc_tools.protoc -I contracts/ --python_out=command-queue/back-tier/src/contracts/ --grpc_python_out=command-queue/back-tier/src/contracts/ contracts/command.proto || (echo "${RED}Failed to generate Python code for Command Queue.${NC}" && exit 1)
 	@echo "${GREEN}Python code generated successfully for $@.${NC}"
 
 $(PYTHON_SERVICES):
@@ -65,7 +65,7 @@ $(NODE_APIS):
 
 clean-contracts:
 	@echo "${ORANGE}Cleaning generated files...${NC}"
-	@find $(addsuffix /src/contracts, command-queue/back-tier) -type f -delete || (echo "${RED}Failed to clean generated files.${NC}" && exit 1)
+	@find $(addsuffix /src/contracts, command-queue/back-tier) -type f ! -name "__init__.py" -delete || (echo "${RED}Failed to clean generated files.${NC}" && exit )
 	@find $(addsuffix /contracts/, $(addprefix services/, $(PYTHON_SERVICES) $(DOTNET_SERVICES))) -type f -delete || (echo "${RED}Failed to clean generated files.${NC}" && exit 1)
 	@find $(addsuffix /src/contracts/, $(addprefix services/, $(NODE_SERVICES))) -type f -delete || (echo "${RED}Failed to clean generated files.${NC}" && exit 1)
 	@find $(addsuffix /contracts/, $(addprefix orchestration/, $(PYTHON_APIS) $(DOTNET_APIS))) -type f -delete || (echo "${RED}Failed to clean generated files.${NC}" && exit 1)

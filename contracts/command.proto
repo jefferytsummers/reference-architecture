@@ -4,15 +4,21 @@ option csharp_namespace = "contracts.command";
 
 package commandqueue;
 
+enum CommandTier {
+  ORCHESTRATION = 0;
+  SERVICE = 1;
+}
+
 // Command represents a command to be executed by a service
 message Command {
   string command_id = 1;
   string service_name = 2;
-  string command_type = 3;
-  bytes payload = 4;
-  int32 priority = 5;
-  int32 retry_count = 6;
-  string created_at = 7;
+  CommandTier command_tier = 3;
+  string command_destination = 4;
+  bytes payload = 5;
+  int32 priority = 6;
+  int32 retry_count = 7;
+  string created_at = 8;
 }
 
 // EnqueueCommandRequest represents a request to enqueue a command
@@ -65,8 +71,8 @@ message LogQueueStateCommandResponse {
     repeated QueueStateByService queueState = 1;
 }
 
-// CommandQueueService defines the RPC service for the command queue
-service CommandQueueService {
+// CommandQueue defines the RPC service for the command queue
+service CommandQueue {
   // EnqueueCommand enqueues a command into the command queue
   rpc EnqueueCommand(EnqueueCommandRequest) returns (EnqueueCommandResponse);
 

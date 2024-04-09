@@ -1,11 +1,16 @@
 import asyncio
 from contextlib import asynccontextmanager
-from typing import AsyncGenerator, List, Dict
+from typing import AsyncGenerator, Dict
 import grpc
 from grpc_reflection.v1alpha import reflection
 from fastapi import FastAPI
 import contracts.command_pb2 as command_
 import contracts.command_pb2_grpc as command_grpc
+
+async def marshal_command(command: command_.Command):
+    # Use the tier/destination values to forward the payload to the appropriate gRPC service.
+
+    pass
 
 async def process_command_queue(app: FastAPI):
     while True:
@@ -13,12 +18,15 @@ async def process_command_queue(app: FastAPI):
             if not queue.empty():
                 command = await queue.get()
                 # Process the command here
+                print('-'*20)
                 print(f"Processing command for service: {service_name}")
-                print(f"Command ID: {command.command_id}")
-                print(f"Command Type: {command.command_type}")
+                print(f"ID: {command.command_id}")
+                print(f"Tier: {command.command_tier}")
+                print(f"Destination: {command.command_destination}")
                 print(f"Payload: {command.payload}")
                 # Add your command processing logic here
                 print(f"Command processed successfully for service: {service_name}")
+                print('-'*20)
             else:
                 print(f"No commands in the queue for service: {service_name}")
 
@@ -31,14 +39,14 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     print('ADDING SERVICERS')
     app.state.server = grpc.aio.server()
     app.state.command_queue_servicer = CommandQueueServicer(app)
-    command_grpc.add_CommandQueueServiceServicer_to_server(app.state.command_queue_servicer, app.state.server)
+    command_grpc.add_CommandQueueServicer_to_server(app.state.command_queue_servicer, app.state.server)
     app.state.command_queue_task = asyncio.create_task(process_command_queue(app))
     SERVICE_NAMES = (
         'commandqueue.CommandQueueService',
         reflection.SERVICE_NAME,
     )
     reflection.enable_server_reflection(SERVICE_NAMES, app.state.server)
-    print('\033[1;32m CommandQueueServiceServicer added to grpc server...')
+    print('\033[1;32m CommandQueueServicer added to grpc server...')
     app.state.server.add_insecure_port('127.0.0.1:50051')
     print('SERVICERS ADDED')
     await app.state.server.start()
@@ -52,7 +60,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
 
 app = FastAPI(lifespan=lifespan)
 
-class CommandQueueServicer(command_grpc.CommandQueueServiceServicer):
+class CommandQueueServicer(command_grpc.CommandQueueServicer):
     def __init__(self, app: FastAPI):
         print('CommandServicer instantiated')
         self.command_queue: Dict[str, asyncio.Queue[command_.Command]] = {}

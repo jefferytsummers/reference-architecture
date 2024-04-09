@@ -42,7 +42,7 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     command_grpc.add_CommandQueueServicer_to_server(app.state.command_queue_servicer, app.state.server)
     app.state.command_queue_task = asyncio.create_task(process_command_queue(app))
     SERVICE_NAMES = (
-        'commandqueue.CommandQueueService',
+        'commandqueue.CommandQueue',
         reflection.SERVICE_NAME,
     )
     reflection.enable_server_reflection(SERVICE_NAMES, app.state.server)

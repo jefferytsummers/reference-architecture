@@ -2,10 +2,10 @@ import asyncio
 from contextlib import asynccontextmanager
 from typing import AsyncGenerator, List, Dict
 import grpc
+from grpc_reflection.v1alpha import reflection
 from fastapi import FastAPI
 import contracts.command_pb2 as command_
 import contracts.command_pb2_grpc as command_grpc
-from google.protobuf.wrappers_pb2 import BoolValue
 
 async def process_command_queue(app: FastAPI):
     while True:
@@ -33,8 +33,13 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
     app.state.command_queue_servicer = CommandQueueServicer(app)
     command_grpc.add_CommandQueueServiceServicer_to_server(app.state.command_queue_servicer, app.state.server)
     app.state.command_queue_task = asyncio.create_task(process_command_queue(app))
+    SERVICE_NAMES = (
+        'commandqueue.CommandQueueService',
+        reflection.SERVICE_NAME,
+    )
+    reflection.enable_server_reflection(SERVICE_NAMES, app.state.server)
     print('\033[1;32m CommandQueueServiceServicer added to grpc server...')
-    app.state.server.add_insecure_port('[::]:50051')
+    app.state.server.add_insecure_port('127.0.0.1:50051')
     print('SERVICERS ADDED')
     await app.state.server.start()
     print('Command Queue successfully spun up. Contracts sent over :50051')
@@ -47,14 +52,14 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
 
 app = FastAPI(lifespan=lifespan)
 
-app = FastAPI(lifespan=lifespan)
-
 class CommandQueueServicer(command_grpc.CommandQueueServiceServicer):
     def __init__(self, app: FastAPI):
+        print('CommandServicer instantiated')
         self.command_queue: Dict[str, asyncio.Queue[command_.Command]] = {}
         self.app = app
 
     async def EnqueueCommand(self, request: command_.EnqueueCommandRequest, context: grpc.aio.ServicerContext) -> command_.EnqueueCommandResponse:
+        print('ENQUEUING COMMAND')
         command: command_.Command = request.command
         service_name: str = command.service_name
 

@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+option csharp_namespace = "contracts.command";
+
+package commandqueue;
+
+enum CommandTier {
+  ORCHESTRATION = 0;
+  SERVICE = 1;
+}
+
+// Command represents a command to be executed by a service
+message Command {
+  string command_id = 1;
+  string service_name = 2;
+  CommandTier command_tier = 3;
+  string command_destination = 4;
+  bytes payload = 5;
+  int32 priority = 6;
+  int32 retry_count = 7;
+  string created_at = 8;
+}
+
+// EnqueueCommandRequest represents a request to enqueue a command
+message EnqueueCommandRequest {
+  Command command = 1;
+}
+
+// EnqueueCommandResponse represents a response to an enqueue command request
+message EnqueueCommandResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+// DequeueCommandRequest represents a request to dequeue a command
+message DequeueCommandRequest {
+  string service_name = 1;
+  string command_id = 2;
+}
+
+// DequeueCommandResponse represents a response to a dequeue command request
+message DequeueCommandResponse {
+  Command command = 1;
+  bool success = 2;
+  string message = 3;
+}
+
+// RetryCommandRequest represents a request to retry a command
+message RetryCommandRequest {
+  string command_id = 1;
+  string service_name = 2;
+}
+
+// RetryCommandResponse represents a response to a retry command request
+message RetryCommandResponse {
+  bool success = 1;
+  string message = 2;
+}
+
+message LogQueueStateCommandRequest {
+    string service_name = 1;
+}
+
+message QueueStateByService {
+    string command_id = 1;
+    string service_name = 2;
+    bool processing = 3;
+}
+
+message LogQueueStateCommandResponse {
+    repeated QueueStateByService queueState = 1;
+}
+
+// CommandQueue defines the RPC service for the command queue
+service CommandQueue {
+  // EnqueueCommand enqueues a command into the command queue
+  rpc EnqueueCommand(EnqueueCommandRequest) returns (EnqueueCommandResponse);
+
+  // DequeueCommand dequeues a command from the command queue for a specific service
+  rpc DequeueCommand(DequeueCommandRequest) returns (DequeueCommandResponse);
+
+  // RetryCommand retries a failed command by enqueueing it back into the command queue
+  rpc RetryCommand(RetryCommandRequest) returns (RetryCommandResponse);
+
+  // Log state of the queue
+  rpc LogQueueStateCommand(LogQueueStateCommandRequest) returns (LogQueueStateCommandResponse);
+}
